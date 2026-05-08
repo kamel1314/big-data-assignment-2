@@ -1,0 +1,57 @@
+============================================================
+MongoDB Query Results - moviesDB.moviesColl
+============================================================
+
+-- Query 1: Create index on name field, then search for a specific title by name --
+Index created: name_1
+
+{
+  _id: ObjectId('69fd8d6cf4bbc7d9de42c4bd'),
+  name: 'Ice Airport Alaska',
+  type: 'TV Show',
+  genre: 'Documentary',
+  released_at: '2020-10-26',
+  imdb_rating: '7.8/10',
+  streaming_on: 'Paramount+, Prime Video',
+  country: ''
+}
+
+-- Query 2: Find all Movies where genre contains Drama or Documentary (showing first 3 results out of many using .limit(3)) --
+[
+  { name: 'Memento Mori', type: 'Movie', genre: 'Drama, Horror', released_at: '1999-12-24', imdb_rating: '6.3/10' },
+  { name: 'Kadosh', type: 'Movie', genre: 'Romance, Drama', released_at: '1999-01-01', imdb_rating: '6.8/10' },
+  { name: 'Yourself and Yours', type: 'Movie', genre: 'Drama, Comedy', released_at: '2016-11-10', imdb_rating: '6.8/10' }
+]
+
+-- Query 3: Count of titles per type sorted from highest to lowest --
+[ { _id: 'Movie', count: 1232 }, { _id: 'TV Show', count: 169 } ]
+
+-- Query 4: Top 5 highest-rated Movies after 2010 on Prime Video or Netflix --
+[
+  { name: 'Liquor House Comedy presents Brown Sugar Night', released_at: '2020-04-24', genre: 'Documentary', streaming_on: 'Free Services, Prime Video', country: '', imdb_rating: '9.7/10' },
+  { name: 'Messiah', released_at: '2016-04-23', genre: 'Drama, Horror', streaming_on: 'Prime Video', country: '', imdb_rating: '9.3/10' },
+  { name: 'Why She Smiles', released_at: '2021-03-01', genre: 'Biography, Documentary', streaming_on: 'Free Services, Prime Video', country: '', imdb_rating: '9.1/10' },
+  { name: "Attache'", released_at: '2018-08-25', genre: 'Documentary', streaming_on: 'Prime Video', country: '', imdb_rating: '9/10' },
+  { name: 'Kaagaz Ki Kashti', released_at: '2016-10-25', genre: 'Documentary', streaming_on: 'Prime Video', country: '', imdb_rating: '8.9/10' }
+]
+
+-- Query 5 (Bonus): Advanced $facet query - multi-dimensional summary in one pass --
+{
+  by_genre: [
+    { genre: 'Drama', count: 494 },
+    { genre: 'Documentary', count: 300 },
+    { genre: 'Comedy', count: 272 },
+    { genre: 'Action & Adventure', count: 193 },
+    { genre: 'Thriller', count: 140 }
+  ],
+  rating_stats: [
+    { avg_rating: 6.19, max_rating: 9.7, min_rating: 1, total_rated: 1206 }
+  ],
+  by_content_rating: [
+    { content_rating: '18+ (R)', count: 182 },
+    { content_rating: '7+ (PG)', count: 77 },
+    { content_rating: '13+ (PG-13)', count: 75 },
+    { content_rating: 'All (G)', count: 65 },
+    { content_rating: '16+', count: 39 }
+  ]
+}
